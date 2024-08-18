@@ -9,6 +9,9 @@ import {
 } from "react-simple-captcha";
 import { useEffect, useRef, useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
+
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
@@ -26,6 +29,13 @@ const Login = () => {
     const password = form.password.value;
     logIn(email, password).then((result) => {
       const user = result.user;
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Log In Successfull",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       console.log(user);
     });
   };
@@ -47,90 +57,95 @@ const Login = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 items-center py-10">
-      <div>
-        <img src={loginimg} alt="login" />
-      </div>
-      <div>
-        <h2 className="text-2xl font-bold">Login Now</h2>
-        <form onSubmit={login} className="space-y-4">
-          {/* email */}
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Email</span>
-            </div>
-            <input
-              required
-              name="email"
-              type="email"
-              placeholder="Your Mail"
-              className="input input-bordered w-full"
-            />
-          </label>
+    <>
+      <Helmet>
+        <title>Bistro Boss | Login</title>
+      </Helmet>
+      <div className="grid grid-cols-2 items-center py-10">
+        <div>
+          <img src={loginimg} alt="login" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold">Login Now</h2>
+          <form onSubmit={login} className="space-y-4">
+            {/* email */}
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Email</span>
+              </div>
+              <input
+                required
+                name="email"
+                type="email"
+                placeholder="Your Mail"
+                className="input input-bordered w-full"
+              />
+            </label>
 
-          {/* captcha */}
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Captcha</span>
-            </div>
-            <LoadCanvasTemplate />
-            <input
-              ref={captchaRef}
-              name="captcha"
-              type="text"
-              placeholder="Validate above captcha"
-              className="input input-bordered w-full"
-            />
-            <button
-              onClick={handleValidateCaptcha}
-              className="btn btn-outline btn-info btn-xs mt-2"
-            >
-              Validate
-            </button>
-          </label>
+            {/* captcha */}
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Captcha</span>
+              </div>
+              <LoadCanvasTemplate />
+              <input
+                ref={captchaRef}
+                name="captcha"
+                type="text"
+                placeholder="Validate above captcha"
+                className="input input-bordered w-full"
+              />
+              <button
+                onClick={handleValidateCaptcha}
+                className="btn btn-outline btn-info btn-xs mt-2"
+              >
+                Validate
+              </button>
+            </label>
 
-          {/* Password */}
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Password</span>
-            </div>
-            <input
-              name="password"
-              type="password"
-              placeholder="******"
-              className="input input-bordered w-full"
-            />
-          </label>
+            {/* Password */}
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Password</span>
+              </div>
+              <input
+                name="password"
+                type="password"
+                placeholder="******"
+                className="input input-bordered w-full"
+              />
+            </label>
 
-          {/* Submit BTN */}
-          <input
-            disabled={disabled}
-            type="submit"
-            value="Login"
-            className={`bg-[#D1A054] text-white w-full py-2 rounded ${
-              disabled ? "cursor-not-allowed" : "cursor-pointer"
-            }`}
-          />
-        </form>
-        <div className="flex flex-col justify-center items-center gap-2 py-5">
-          <h2>
-            New Here?{" "}
-            <Link to="/register" className="underline">
-              Create A Account
-            </Link>
-          </h2>
-          <h2>Or sign in with</h2>
-          <div className="flex items-center justify-center gap-2">
-            <button onClick={handleGoogle}>
-              <img src={google} alt="" />
-            </button>
-            <button>
-              <img src={github} alt="" />
-            </button>
+            {/* Submit BTN */}
+            <input
+              disabled={disabled}
+              type="submit"
+              value="Login"
+              className={`bg-[#D1A054] text-white w-full py-2 rounded ${
+                disabled ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
+            />
+          </form>
+          <div className="flex flex-col justify-center items-center gap-2 py-5">
+            <h2>
+              New Here?{" "}
+              <Link to="/register" className="underline">
+                Create A Account
+              </Link>
+            </h2>
+            <h2>Or sign in with</h2>
+            <div className="flex items-center justify-center gap-2">
+              <button onClick={handleGoogle}>
+                <img src={google} alt="" />
+              </button>
+              <button>
+                <img src={github} alt="" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

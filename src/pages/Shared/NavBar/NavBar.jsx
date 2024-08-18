@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 const NavBar = () => {
+  const { user, logOut } = useAuth();
+  const handleLogOut = () => {
+    logOut()
+      .then()
+      .catch((err) => console.log(err));
+  };
   const navOptions = (
     <>
       <li>
@@ -12,9 +19,22 @@ const NavBar = () => {
       <li>
         <Link to="/order/salad">Order Food</Link>
       </li>
-      <li>
-        <Link to="/login">Login</Link>
-      </li>
+      {user ? (
+        <>
+          <button
+            onClick={handleLogOut}
+            className="btn btn-active btn-primary btn-sm"
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </>
+      )}
     </>
   );
 
