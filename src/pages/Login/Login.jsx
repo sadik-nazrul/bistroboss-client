@@ -8,9 +8,13 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { useEffect, useRef, useState } from "react";
+import useAuth from "../../hooks/useAuth";
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
+  const { logIn, googleLogin } = useAuth();
+
+  // Captcha Engine
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -20,8 +24,10 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    const info = { email, password };
-    console.log(info);
+    logIn(email, password).then((result) => {
+      const user = result.user;
+      console.log(user);
+    });
   };
 
   const handleValidateCaptcha = () => {
@@ -31,6 +37,13 @@ const Login = () => {
     } else {
       setDisabled(true);
     }
+  };
+
+  const handleGoogle = () => {
+    googleLogin((result) => {
+      const user = result.user;
+      console.log(user);
+    });
   };
 
   return (
@@ -108,8 +121,12 @@ const Login = () => {
           </h2>
           <h2>Or sign in with</h2>
           <div className="flex items-center justify-center gap-2">
-            <img src={google} alt="" />
-            <img src={github} alt="" />
+            <button onClick={handleGoogle}>
+              <img src={google} alt="" />
+            </button>
+            <button>
+              <img src={github} alt="" />
+            </button>
           </div>
         </div>
       </div>
