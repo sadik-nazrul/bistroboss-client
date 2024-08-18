@@ -1,17 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginimg from "../../assets/others/authentication2.png";
 import google from "../../assets/others/google.png";
 import github from "../../assets/others/github.png";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-  const { googleLogin, createUser } = useAuth();
+  const { googleLogin, createUser, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
   //   hook form
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -20,6 +23,21 @@ const SignUp = () => {
     createUser(data.email, data.password).then((result) => {
       const user = result.user;
       console.log(user);
+      updateUserProfile(data.name, data.photo)
+        .then(() => {
+          reset();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "user profile updated",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   };
 
@@ -53,6 +71,23 @@ const SignUp = () => {
               />
               {errors.name && (
                 <span className="text-red-600">Name is required</span>
+              )}
+            </label>
+
+            {/* Photo */}
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Photo URL</span>
+              </div>
+              <input
+                {...register("photo", { required: true })}
+                name="photo"
+                type="text"
+                placeholder="Photo URL"
+                className="input input-bordered w-full"
+              />
+              {errors.name && (
+                <span className="text-red-600">Photo URL is required</span>
               )}
             </label>
 

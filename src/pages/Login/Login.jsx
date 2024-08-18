@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginimg from "../../assets/others/authentication2.png";
 import google from "../../assets/others/google.png";
 import github from "../../assets/others/github.png";
@@ -16,6 +16,9 @@ const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const { logIn, googleLogin } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   // Captcha Engine
   useEffect(() => {
@@ -38,6 +41,7 @@ const Login = () => {
       });
       console.log(user);
     });
+    navigate(from, { replace: true });
   };
 
   const handleValidateCaptcha = () => {
@@ -82,27 +86,6 @@ const Login = () => {
               />
             </label>
 
-            {/* captcha */}
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">Captcha</span>
-              </div>
-              <LoadCanvasTemplate />
-              <input
-                ref={captchaRef}
-                name="captcha"
-                type="text"
-                placeholder="Validate above captcha"
-                className="input input-bordered w-full"
-              />
-              <button
-                onClick={handleValidateCaptcha}
-                className="btn btn-outline btn-info btn-xs mt-2"
-              >
-                Validate
-              </button>
-            </label>
-
             {/* Password */}
             <label className="form-control w-full">
               <div className="label">
@@ -112,6 +95,22 @@ const Login = () => {
                 name="password"
                 type="password"
                 placeholder="******"
+                className="input input-bordered w-full"
+              />
+            </label>
+
+            {/* captcha */}
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Captcha</span>
+              </div>
+              <LoadCanvasTemplate />
+              <input
+                onBlur={handleValidateCaptcha}
+                ref={captchaRef}
+                name="captcha"
+                type="text"
+                placeholder="Validate above captcha"
                 className="input input-bordered w-full"
               />
             </label>
