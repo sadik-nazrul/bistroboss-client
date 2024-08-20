@@ -1,4 +1,12 @@
-import { FaCalendar, FaCartShopping, FaEnvelope } from "react-icons/fa6";
+import {
+  FaBook,
+  FaCalendar,
+  FaCartShopping,
+  FaEnvelope,
+  FaList,
+  FaUsers,
+  FaUtensils,
+} from "react-icons/fa6";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import {
@@ -8,8 +16,11 @@ import {
 } from "react-icons/md";
 import { CiShop } from "react-icons/ci";
 import logo from "../assets/logo1.png";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
+  // TODO: get isAdmin Value from the database
+  const [isAdmin] = useAdmin();
   return (
     <div className="flex">
       {/* left drawer */}
@@ -18,75 +29,153 @@ const Dashboard = () => {
           <img src={logo} alt="bistro boss" className="pb-5" />
         </Link>
         <ul className="space-y-2">
-          <li>
-            <NavLink
-              to="/dashboard/cart"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-white flex items-center gap-1"
-                  : "flex items-center gap-1"
-              }
-            >
-              <FaCartShopping />
-              My Cart
-            </NavLink>
-          </li>
+          {isAdmin ? (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/manageitems"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "flex items-center gap-1"
+                  }
+                >
+                  <FaList />
+                  Manage Items
+                </NavLink>
+              </li>
 
-          <li>
-            <NavLink
-              to="/dashboard/userHome"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-white flex items-center gap-1"
-                  : "text-black flex items-center gap-1"
-              }
-            >
-              <FaHome />
-              User Home
-            </NavLink>
-          </li>
+              <li>
+                <NavLink
+                  to="/dashboard/adminHome"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaHome />
+                  Admin Home
+                </NavLink>
+              </li>
 
-          <li>
-            <NavLink
-              to="/dashboard/reservation"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-white flex items-center gap-1"
-                  : "text-black flex items-center gap-1"
-              }
-            >
-              <FaCalendar />
-              My Resevation
-            </NavLink>
-          </li>
+              <li>
+                <NavLink
+                  to="/dashboard/additems"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaUtensils />
+                  Add Items
+                </NavLink>
+              </li>
 
-          <li>
-            <NavLink
-              to="/dashboard/review"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-white flex items-center gap-1"
-                  : "text-black flex items-center gap-1"
-              }
-            >
-              <MdOutlineRateReview />
-              Add Review
-            </NavLink>
-          </li>
+              <li>
+                <NavLink
+                  to="/dashboard/managebookings"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaBook />
+                  Manage Bookings
+                </NavLink>
+              </li>
 
-          <li>
-            <NavLink
-              to="/dashboard/mybooking"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-white flex items-center gap-1"
-                  : "text-black flex items-center gap-1"
-              }
-            >
-              <MdOutlineEditCalendar />
-              My Booking
-            </NavLink>
-          </li>
+              <li>
+                <NavLink
+                  to="/dashboard/allusers"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaUsers />
+                  All Users
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/cart"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "flex items-center gap-1"
+                  }
+                >
+                  <FaCartShopping />
+                  My Cart
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/userHome"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaHome />
+                  User Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/reservation"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaCalendar />
+                  My Resevation
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/review"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <MdOutlineRateReview />
+                  Add Review
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/mybooking"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <MdOutlineEditCalendar />
+                  My Booking
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {/* Shared NavLink */}
           <div className="divider"></div>
 
           <li>

@@ -6,10 +6,12 @@ import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
   const { googleLogin, createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   //   hook form
   const {
     register,
@@ -19,21 +21,31 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     createUser(data.email, data.password).then((result) => {
       const user = result.user;
       console.log(user);
       updateUserProfile(data.name, data.photo)
         .then(() => {
-          reset();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "user profile updated",
-            showConfirmButton: false,
-            timer: 1500,
+          // Create user entry in the database
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("User Addeded to the database");
+
+              reset();
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "user profile updated",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
           });
-          navigate("/");
         })
         .catch((err) => {
           console.log(err);
@@ -43,9 +55,19 @@ const SignUp = () => {
 
   // google login
   const handleGoogle = () => {
-    googleLogin((result) => {
-      const user = result.user;
-      console.log(user);
+    googleLogin().then((result) => {
+      const userInfo = {
+        name: result.user?.displayName,
+        email: result.user?.email,
+      };
+      axiosPublic
+        .post("/users", userInfo)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     });
   };
   return (

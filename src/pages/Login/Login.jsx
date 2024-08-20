@@ -11,8 +11,10 @@ import { useEffect, useRef, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Login = () => {
+  const axiosPublic = useAxiosPublic();
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const { logIn, googleLogin } = useAuth();
@@ -30,8 +32,7 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    logIn(email, password).then((result) => {
-      const user = result.user;
+    logIn(email, password).then(() => {
       Swal.fire({
         position: "center",
         icon: "success",
@@ -39,7 +40,6 @@ const Login = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log(user);
     });
     navigate(from, { replace: true });
   };
@@ -53,10 +53,21 @@ const Login = () => {
     }
   };
 
+  // google login
   const handleGoogle = () => {
-    googleLogin((result) => {
-      const user = result.user;
-      console.log(user);
+    googleLogin().then((result) => {
+      const userInfo = {
+        name: result.user?.displayName,
+        email: result.user?.email,
+      };
+      axiosPublic
+        .post("/users", userInfo)
+        .then(() => {
+          navigate("/");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     });
   };
 
