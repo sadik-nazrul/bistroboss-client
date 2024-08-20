@@ -10,6 +10,10 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashboard";
 import Cart from "../pages/DashBoard/Cart/Cart";
 import AllUsers from "../pages/DashBoard/AllUsers/AllUsers";
+import AdminRoutes from "./AdminRoutes";
+import AddItems from "../pages/DashBoard/AddItems/AddItems";
+import ManageItems from "../pages/DashBoard/ManageItems/ManageItems";
+import UpdateItem from "../pages/DashBoard/UpdateItem/UpdateItem";
 
 export const router = createBrowserRouter([
   {
@@ -62,7 +66,37 @@ export const router = createBrowserRouter([
       // Admin routes
       {
         path: "allusers",
-        element: <AllUsers />,
+        element: (
+          <AdminRoutes>
+            <AllUsers />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "additems",
+        element: (
+          <AdminRoutes>
+            <AddItems />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "manageitems",
+        element: (
+          <AdminRoutes>
+            <ManageItems />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "updateitem/:id",
+        element: (
+          <AdminRoutes>
+            <UpdateItem />
+          </AdminRoutes>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5002/menu/${params.id}`),
       },
     ],
   },

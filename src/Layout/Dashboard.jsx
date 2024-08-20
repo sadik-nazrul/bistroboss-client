@@ -24,27 +24,13 @@ const Dashboard = () => {
   return (
     <div className="flex">
       {/* left drawer */}
-      <div className="w-64 h-screen bg-orange-400 p-5">
+      <div className="w-64 min-h-screen bg-orange-400 p-5">
         <Link to="/">
           <img src={logo} alt="bistro boss" className="pb-5" />
         </Link>
         <ul className="space-y-2">
           {isAdmin ? (
             <>
-              <li>
-                <NavLink
-                  to="/dashboard/manageitems"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-white flex items-center gap-1"
-                      : "flex items-center gap-1"
-                  }
-                >
-                  <FaList />
-                  Manage Items
-                </NavLink>
-              </li>
-
               <li>
                 <NavLink
                   to="/dashboard/adminHome"
@@ -70,6 +56,20 @@ const Dashboard = () => {
                 >
                   <FaUtensils />
                   Add Items
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/manageitems"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "flex items-center gap-1"
+                  }
+                >
+                  <FaList />
+                  Manage Items
                 </NavLink>
               </li>
 
