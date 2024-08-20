@@ -96,9 +96,7 @@ export const router = createBrowserRouter([
           </AdminRoutes>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://bistro-boss-server-eta-rouge.vercel.app/menu/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_VERCEL_BISTRO_API}/menu/${params.id}`),
       },
     ],
   },

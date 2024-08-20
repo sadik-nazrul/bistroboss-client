@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 const axiosSecure = axios.create({
-  baseURL: "https://bistro-boss-server-eta-rouge.vercel.app",
+  baseURL: `${import.meta.env.VITE_VERCEL_BISTRO_API}`,
 });
 const useAxiosSecure = () => {
   const navigate = useNavigate();

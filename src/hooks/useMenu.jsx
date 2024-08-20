@@ -6,7 +6,7 @@ const useMenu = () => {
   // const [menu, setMenu] = useState([]);
   // const [loading, setLoading] = useState(true);
   // useEffect(() => {
-  //   fetch("https://bistro-boss-server-eta-rouge.vercel.app/menu")
+  //   fetch(`${import.meta.env.VITE_VERCEL_BISTRO_API}/menu`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setMenu(data);
