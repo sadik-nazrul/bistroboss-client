@@ -6,14 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 const AdminHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: adminStats } = useQuery({
-    queryKey: ["adminStats"],
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin-stats");
       return res.data;
     },
   });
-  console.log(adminStats);
 
   return (
     <div>
@@ -26,26 +25,26 @@ const AdminHome = () => {
         <div className="stat">
           <FaWallet className="text-xl" />
 
-          <div className="stat-value">${adminStats.revenue}</div>
+          <div className="stat-value">${stats?.revenue}</div>
           <div className="stat-title">Revenue</div>
         </div>
         {/* Customers */}
         <div className="stat">
           <FaUsers className="text-xl" />
 
-          <div className="stat-value">{adminStats.users}</div>
+          <div className="stat-value">{stats?.users}</div>
           <div className="stat-title">Customers</div>
         </div>
         <div className="stat">
           <FaClipboardList className="text-xl" />
 
-          <div className="stat-value">{adminStats.menuItems}</div>
+          <div className="stat-value">{stats?.menuItems}</div>
           <div className="stat-title">Menus</div>
         </div>
         <div className="stat">
           <FaTruck className="text-xl" />
 
-          <div className="stat-value">{adminStats.orders}</div>
+          <div className="stat-value">{stats?.orders}</div>
           <div className="stat-title">Orders</div>
         </div>
       </div>
