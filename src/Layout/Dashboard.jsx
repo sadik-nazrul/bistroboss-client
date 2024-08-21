@@ -17,10 +17,12 @@ import {
 import { CiShop } from "react-icons/ci";
 import logo from "../assets/logo1.png";
 import useAdmin from "../hooks/useAdmin";
+import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
   // TODO: get isAdmin Value from the database
   const [isAdmin] = useAdmin();
+  const [cart] = useCart();
   return (
     <div className="flex">
       {/* left drawer */}
@@ -113,7 +115,7 @@ const Dashboard = () => {
                   }
                 >
                   <FaCartShopping />
-                  My Cart
+                  My Cart({cart.length})
                 </NavLink>
               </li>
 
