@@ -8,7 +8,7 @@ import {
   FaUtensils,
 } from "react-icons/fa6";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { FaHistory, FaHome } from "react-icons/fa";
 import {
   MdOutlineRateReview,
   MdOutlineEditCalendar,
@@ -107,6 +107,20 @@ const Dashboard = () => {
             <>
               <li>
                 <NavLink
+                  to="/dashboard/userHome"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white flex items-center gap-1"
+                      : "text-black flex items-center gap-1"
+                  }
+                >
+                  <FaHome />
+                  User Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="/dashboard/cart"
                   className={({ isActive }) =>
                     isActive
@@ -121,15 +135,15 @@ const Dashboard = () => {
 
               <li>
                 <NavLink
-                  to="/dashboard/userHome"
+                  to="/dashboard/paymentHistory"
                   className={({ isActive }) =>
                     isActive
                       ? "text-white flex items-center gap-1"
-                      : "text-black flex items-center gap-1"
+                      : "flex items-center gap-1"
                   }
                 >
-                  <FaHome />
-                  User Home
+                  <FaHistory />
+                  Payment History
                 </NavLink>
               </li>
 
